@@ -5,6 +5,7 @@ public class Pipe{
   private float w;
   private float h;
   private float xVel;
+  private boolean passed = false;
   
   private PImage pipeImage;
   
