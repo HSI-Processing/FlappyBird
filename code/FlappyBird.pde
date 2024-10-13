@@ -71,6 +71,8 @@ public void draw() {
         pipe.drawPipe();
     }
 
+    checkPipePassed();
+
     if (bird.catchItem(item)) {
         score += 5;
         item.itemRespawn();
@@ -103,17 +105,7 @@ public void displayInstruction() {
     }
 }
 
-public void updateScore() {
-    if (!isBeginning) {
-        if (millis() - timer >= 1000) {
-            score += 1;
-            timer = millis();
-        }
-    }
-}
-
 public void statBoard() {
-    updateScore();
     textSize(32);
     fill(204, 102, 0);
     text("Bird X: " + bird.x, 100, 30);
@@ -121,6 +113,16 @@ public void statBoard() {
     text("Bird Y: " + bird.y, 99, 60);
     fill(204, 102, 0);
     text(language.toSpanishCheck("Score: ") + score, 77, 90);
+}
+
+public void checkPipePassed() {
+    for (int i = 0; i < pipes.size(); i += 2) {
+        Pipe bottomPipe = pipes.get(i + 1);
+        if (!bottomPipe.passed && bottomPipe.x + bottomPipe.w < bird.x) {
+            score += 1;
+            bottomPipe.passed = true;
+        }
+    }
 }
 
 public void displayGameOver() {
